@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 
 #define FIREBASE_HOST "https://nodemcu-4eb31.firebaseio.com/"
-#define FIREBASE_AUTH "4KSBSA5ZKwliFIRsWusU0xt7x2u7vfi2TT8Li16M"
+#define FIREBASE_AUTH ""
 #define WIFI_SSID "siddharth"
 #define WIFI_PASSWORD "siddharth"
 

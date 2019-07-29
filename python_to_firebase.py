@@ -2,7 +2,7 @@ import pyrebase
 import cv2
 
 config = {
-  "apiKey": "4KSBSA5ZKwliFIRsWusU0xt7x2u7vfi2TT8Li16M",
+  "apiKey": "",
   "authDomain": "nodemcu-4eb31.firebaseio.com",
   "databaseURL": "https://nodemcu-4eb31.firebaseio.com",
   "storageBucket": "nodemcu-4eb31.appspot.com"
