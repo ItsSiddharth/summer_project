@@ -1,40 +1,38 @@
-import pyrebase
 import cv2
+import sys
+import socket
 
-config = {
-  "apiKey": "",
-  "authDomain": "nodemcu-4eb31.firebaseio.com",
-  "databaseURL": "https://nodemcu-4eb31.firebaseio.com",
-  "storageBucket": "nodemcu-4eb31.appspot.com"
-}
-
-firebase = pyrebase.initialize_app(config)
-db = firebase.database()
 
 facecascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+UDP_IP_ADDRESS = ""
+UDP_PORT_NO = 4210
 
 cap = cv2.VideoCapture(0)
 
 centre_x = 338
 centre_y = 330
-data_x = {"x-pos": centre_x}
-db.set(data_x)
-data_y = {"y-pos": centre_y}
-db.set(data_y)
 
+message = ['Client Message1', 'Client Message2']
+if len(sys.argv) > 1:
+    serverHost = sys.argv[1]
+
+clientSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+clientSock.sendto(bytes("hi", "utf-8"), (UDP_IP_ADDRESS, UDP_PORT_NO)) 
 while(1):
     _, img = cap.read()
-    cv2.flip(img, 1)
+    cv2.flip(img, 0)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faces = facecascade.detectMultiScale(gray,1.3,5)
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         centre_x = x + (w/2)
         centre_y = y + (h/2)
-
-    db.update({"x-pos": centre_x})
-    #db.update({"y-pos": centre_y})
-
+    
+    
+    # print(clientSock)
+    
+    print(bytes(str(centre_x), "utf-8"))
+    # clientSock.close()
 
 
     cv2.imshow('img',img)
@@ -42,5 +40,10 @@ while(1):
     if k == 27:
         break
 
+clientSock.close()
 cap.release()
 cv2.destroyAllWindows()
+
+
+
+

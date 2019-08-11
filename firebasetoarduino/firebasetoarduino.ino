@@ -9,9 +9,10 @@
 const int leftForward = D5;
 const int leftBackward = D4;
 const int rightForward = D0;
-const int rightBackward = D2;
-const int en1 = D6;
-const int en2 = D7;
+const int rightBackward = D3;
+
+const int en1 = D7;
+const int en2 = D6;
 
 float xi = 0;
 float x = 0;
@@ -40,33 +41,45 @@ void setup() {
 
 
 void loop() {
-if (Firebase.getFloat(firebaseData, "x-pos")) {
-
-    if (firebaseData.dataType() == "float") {
+if (Firebase.getFloat(firebaseData, "x-pos")) 
+{
+    if (firebaseData.dataType() == "float") 
+    {
       x = firebaseData.floatData();
       Serial.println(x);
-      if(x < 200)
-      { //analogWrite(en1,255);
-        //analogWrite(en2,255);
+      
+      if( x == y)
+      {
         digitalWrite(leftForward,LOW);
-        digitalWrite(leftBackward,HIGH);
+        digitalWrite(leftBackward,LOW);
+        digitalWrite(rightForward,LOW);
+        digitalWrite(rightBackward,LOW);
+      }
+      
+      if (x - y > 20 )
+      { //analogWrite(en1,230);
+        //analogWrite(en2,230);
+        digitalWrite(leftForward,LOW);
+        digitalWrite(leftBackward,LOW);
         digitalWrite(rightForward,LOW);
         digitalWrite(rightBackward,HIGH);
       }
 
-      if(x> 200)
+      if (y - x > 20)
       {
-        //analogWrite(en1,255);
-        //analogWrite(en2,255);
-        digitalWrite(leftForward,HIGH);
-        digitalWrite(leftBackward,LOW);
-        digitalWrite(rightForward,HIGH);
+        //analogWrite(en1,230);
+        ///analogWrite(en2,230);
+        digitalWrite(leftForward,LOW);
+        digitalWrite(leftBackward,HIGH);
+        digitalWrite(rightForward,LOW);
         digitalWrite(rightBackward,LOW);
       }
+      
       y = x;
     }
 
-  } else {
+  } else 
+  {
     Serial.println(firebaseData.errorReason());
   }
   
